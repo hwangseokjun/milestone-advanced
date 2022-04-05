@@ -1,4 +1,4 @@
-package com.sparta.milestone03advanced.dto;
+package com.sparta.milestone03advanced.dto.restaurant;
 
 import com.sparta.milestone03advanced.model.Restaurant;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.sparta.milestone03advanced.dto;
+package com.sparta.milestone03advanced.dto.restaurant;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,11 @@
 package com.sparta.milestone03advanced.model;
 
-import com.sparta.milestone03advanced.dto.RestaurantRequestDto;
+import com.sparta.milestone03advanced.dto.restaurant.RestaurantRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Entity
@@ -29,6 +28,9 @@ public class Restaurant {
 
     @Column(nullable = false)
     private int y;
+
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    private List<Food> foods;
 
     public Restaurant(RestaurantRequestDto requestDto){
         this.name = requestDto.getName();

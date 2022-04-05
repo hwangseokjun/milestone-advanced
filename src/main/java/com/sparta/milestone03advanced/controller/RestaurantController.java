@@ -1,7 +1,7 @@
 package com.sparta.milestone03advanced.controller;
 
-import com.sparta.milestone03advanced.dto.RestaurantRequestDto;
-import com.sparta.milestone03advanced.dto.RestaurantResponseDto;
+import com.sparta.milestone03advanced.dto.restaurant.RestaurantRequestDto;
+import com.sparta.milestone03advanced.dto.restaurant.RestaurantResponseDto;
 import com.sparta.milestone03advanced.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
