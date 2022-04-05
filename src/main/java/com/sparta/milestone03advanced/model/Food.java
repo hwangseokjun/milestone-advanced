@@ -3,16 +3,15 @@ package com.sparta.milestone03advanced.model;
 import com.sparta.milestone03advanced.dto.food.FoodRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
 public class Food {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

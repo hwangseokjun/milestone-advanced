@@ -20,11 +20,11 @@ public class FoodController {
         return foodService.getFoods(restaurantId);
     }
 
-    // 메뉴 등록
+    // 메뉴 등록하기
     @PostMapping("/restaurant/{restaurantId}/food/register")
-    public List<FoodResponseDto> registerMenu(
+    public void registerMenu(
             @PathVariable Long restaurantId,
             @RequestBody List<FoodRequestDto> requestDtos){
-        return foodService.postFoods(restaurantId, requestDtos);
+        foodService.postFoods(restaurantId, requestDtos);
     }
 }
