@@ -3,16 +3,16 @@ package com.sparta.milestone03advanced.controller;
 import com.sparta.milestone03advanced.dto.food.FoodRequestDto;
 import com.sparta.milestone03advanced.dto.food.FoodResponseDto;
 import com.sparta.milestone03advanced.service.FoodService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class FoodController {
 
-    @Autowired
-    FoodService foodService;
+    private final FoodService foodService;
 
     // 메뉴 읽기
     @GetMapping("/restaurant/{restaurantId}/foods")

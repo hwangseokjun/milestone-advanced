@@ -23,7 +23,7 @@ public class TakeOutFood {
     private String name;
 
     @Column(nullable = false)
-    private int quantinty;
+    private int quantity;
 
     @Column(nullable = false)
     private int price;
@@ -31,7 +31,7 @@ public class TakeOutFood {
     public TakeOutFood(TakeOut takeOut, TakeOutFoodResponseDto responseDto){
         this.takeOut = takeOut;
         this.name = responseDto.getName();
-        this.quantinty = responseDto.getQuantity();
+        this.quantity = responseDto.getQuantity();
         this.price = responseDto.getPrice();
     }
 }

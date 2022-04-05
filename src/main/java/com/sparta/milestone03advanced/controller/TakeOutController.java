@@ -3,7 +3,7 @@ package com.sparta.milestone03advanced.controller;
 import com.sparta.milestone03advanced.dto.takeout.TakeOutRequestDto;
 import com.sparta.milestone03advanced.dto.takeout.TakeOutResponseDto;
 import com.sparta.milestone03advanced.service.TakeOutService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class TakeOutController {
 
-    @Autowired
-    TakeOutService takeOutService;
+    private final TakeOutService takeOutService;
 
     // 주문 읽기
-    @GetMapping("/take-out")
+    @GetMapping("/orders")
     public List<TakeOutResponseDto> readTakeOut(){
         return takeOutService.getTakeOut();
     }
 
     // 주문 등록하기
-    @PostMapping("/take-out/request")
+    @PostMapping("/order/request")
     public TakeOutResponseDto registerTakeOut(@RequestBody TakeOutRequestDto requestDto){
         return takeOutService.postTakeOut(requestDto);
     }

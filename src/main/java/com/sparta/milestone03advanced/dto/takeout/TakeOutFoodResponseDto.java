@@ -12,15 +12,15 @@ public class TakeOutFoodResponseDto {
     private int quantity;
     private int price;
 
-    public TakeOutFoodResponseDto(int quantinty, Food food){
+    public TakeOutFoodResponseDto(int quantity, Food food){
         this.name = food.getName();
-        this.quantity = quantinty;
-        this.price = food.getPrice() * quantinty;
+        this.quantity = quantity;
+        this.price = food.getPrice() * quantity;
     }
 
     public TakeOutFoodResponseDto(TakeOutFood takeOutFood){
         this.name = takeOutFood.getName();
-        this.quantity = takeOutFood.getQuantinty();
+        this.quantity = takeOutFood.getQuantity();
         this.price = takeOutFood.getPrice();
     }
 }

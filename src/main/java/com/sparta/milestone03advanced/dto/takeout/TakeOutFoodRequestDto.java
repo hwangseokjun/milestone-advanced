@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TakeOutFoodRequestDto {
     private Long id;
-    private int quantinty;
+    private int quantity;
 }

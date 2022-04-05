@@ -11,24 +11,20 @@ import com.sparta.milestone03advanced.repository.FoodRepository;
 import com.sparta.milestone03advanced.repository.RestaurantRepository;
 import com.sparta.milestone03advanced.repository.TakeOutFoodRepository;
 import com.sparta.milestone03advanced.repository.TakeOutRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TakeOutService {
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-    @Autowired
-    private FoodRepository foodRepository;
-    @Autowired
-    private TakeOutRepository takeOutRepository;
-    @Autowired
-    private TakeOutFoodRepository takeOutFoodRepository;
-
+    private final RestaurantRepository restaurantRepository;
+    private final FoodRepository foodRepository;
+    private final TakeOutRepository takeOutRepository;
+    private final TakeOutFoodRepository takeOutFoodRepository;
 
     // 주문 목록 가져오기
     public List<TakeOutResponseDto> getTakeOut(){
@@ -43,7 +39,13 @@ public class TakeOutService {
     // 주문 검증 후 저장하기
     public TakeOutResponseDto postTakeOut(TakeOutRequestDto requestDto){
 
-        // 서버에 요청하기 전에 기초적인 검증을 먼저 시행하도록 합니다.
+        // 주문수량 검증
+        for (TakeOutFoodRequestDto takeOutFoodRequestDto : requestDto.getFoods()){
+            int quantity = takeOutFoodRequestDto.getQuantity();
+            if ( quantity < 0 || quantity > 100){
+                throw new IllegalArgumentException("주문수량은 0 ~ 100 사이로 입력해 주세요.");
+            }
+        }
 
         // TakeOutResponseDto 만들기
         Restaurant restaurant = restaurantRepository
@@ -57,13 +59,11 @@ public class TakeOutService {
             takeOutFoodResponsDtos
                     .add(
                     new TakeOutFoodResponseDto(
-                            takeOutFoodRequestDto.getQuantinty(),
+                            takeOutFoodRequestDto.getQuantity(),
                             foodRepository
                             .findById(takeOutFoodRequestDto.getId())
                             .orElseThrow( () -> new NullPointerException("해당 음식이 존재하지 않습니다."))));
         }
-
-        // 유효성 검증
 
         // TakeOutResponseDto 완성
         takeOutResponseDto.setFoods(takeOutFoodResponsDtos);
@@ -72,22 +72,27 @@ public class TakeOutService {
                 .mapToInt(TakeOutFoodResponseDto::getPrice)
                 .sum() + takeOutResponseDto.getDeliveryFee());
 
-        // 요소 저장하기
+        // 최소 주문 가격 검증
+        if (takeOutResponseDto.getTotalPrice() - takeOutResponseDto.getDeliveryFee()
+                < restaurant.getMinOrderPrice()){
+            throw new IllegalArgumentException(restaurant.getMinOrderPrice()+"원 이상 주문해 주세요.");
+        }
+
+        // 목록 저장 후 리턴하기
         return takeOutSave(takeOutResponseDto);
     }
 
     // 목록 저장 메소드
     public TakeOutResponseDto takeOutSave(TakeOutResponseDto responseDto){
-
         TakeOut takeOut = takeOutRepository.save(new TakeOut(responseDto));
 
         List<TakeOutFood> takeOutFoods = new ArrayList<>();
         for ( TakeOutFoodResponseDto takeOutFoodResponseDto : responseDto.getFoods() ){
             takeOutFoods.add(new TakeOutFood(takeOut, takeOutFoodResponseDto));
         }
+
         takeOutFoodRepository.saveAll(takeOutFoods);
 
         return responseDto;
     }
-
 }

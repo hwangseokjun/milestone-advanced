@@ -4,9 +4,6 @@ import com.sparta.milestone03advanced.model.Restaurant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 public class RestaurantResponseDto {
