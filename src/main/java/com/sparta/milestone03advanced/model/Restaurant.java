@@ -25,10 +25,10 @@ public class Restaurant {
     private int deliveryFee;
 
     @Column(nullable = false)
-    private int x;
+    private double x;
 
     @Column(nullable = false)
-    private int y;
+    private double y;
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Food> foods;

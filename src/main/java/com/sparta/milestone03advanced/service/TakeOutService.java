@@ -11,6 +11,7 @@ import com.sparta.milestone03advanced.repository.FoodRepository;
 import com.sparta.milestone03advanced.repository.RestaurantRepository;
 import com.sparta.milestone03advanced.repository.TakeOutFoodRepository;
 import com.sparta.milestone03advanced.repository.TakeOutRepository;
+import com.sparta.milestone03advanced.utils.DeliveryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class TakeOutService {
     private final FoodRepository foodRepository;
     private final TakeOutRepository takeOutRepository;
     private final TakeOutFoodRepository takeOutFoodRepository;
+    private final DeliveryUtils deliveryUtils;
 
     // 주문 목록 가져오기
     public List<TakeOutResponseDto> getTakeOut(){
@@ -64,6 +66,10 @@ public class TakeOutService {
                             .findById(takeOutFoodRequestDto.getId())
                             .orElseThrow( () -> new NullPointerException("해당 음식이 존재하지 않습니다."))));
         }
+        // 배달비 할증 적용하기
+        double distance = deliveryUtils.getDistance(restaurant.getX(), restaurant.getY(), requestDto.getX(), requestDto.getY());
+        int primeum = deliveryUtils.getDistancePremium(distance);
+        takeOutResponseDto.setDeliveryFee(takeOutResponseDto.getDeliveryFee() + primeum);
 
         // TakeOutResponseDto 완성
         takeOutResponseDto.setFoods(takeOutFoodResponsDtos);

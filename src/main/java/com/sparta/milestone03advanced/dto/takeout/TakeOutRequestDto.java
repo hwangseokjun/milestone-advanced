@@ -10,6 +10,6 @@ import java.util.List;
 public class TakeOutRequestDto {
     private Long restaurantId;
     private List<TakeOutFoodRequestDto> foods;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 }

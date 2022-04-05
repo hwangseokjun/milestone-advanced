@@ -4,6 +4,7 @@ import com.sparta.milestone03advanced.dto.restaurant.RestaurantRequestDto;
 import com.sparta.milestone03advanced.dto.restaurant.RestaurantResponseDto;
 import com.sparta.milestone03advanced.model.Restaurant;
 import com.sparta.milestone03advanced.repository.RestaurantRepository;
+import com.sparta.milestone03advanced.utils.DeliveryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final DeliveryUtils deliveryUtils;
 
     // 레스토랑 등록
     public RestaurantResponseDto postRestaurant(RestaurantRequestDto requestDto){
@@ -25,15 +27,20 @@ public class RestaurantService {
     }
 
     // 레스토랑 검색
-    public List<RestaurantResponseDto> getRestaurant(){
+    public List<RestaurantResponseDto> getRestaurant(double user_x, double user_y){
+
         List<RestaurantResponseDto> responseDtos = new ArrayList<>();
-        for ( Restaurant restaurant : restaurantRepository.findAll() ){
-            responseDtos.add(new RestaurantResponseDto(restaurant));
+
+        // 두 점 사이의 거리가 3 이하인 경우만 목록에 표시하기
+       for ( Restaurant restaurant : restaurantRepository.findAll() ) {
+            if ( deliveryUtils.getDistance(user_x, user_y, restaurant.getX(), restaurant.getY()) <= 3){
+                responseDtos.add(new RestaurantResponseDto(restaurant));
+            }
         }
         return responseDtos;
     }
 
-    // 유효성 검사 시행 메소드
+        // 유효성 검사 시행 메소드
     private void isValid(RestaurantRequestDto requestDto){
 
         int minOrderPrice = requestDto.getMinOrderPrice();

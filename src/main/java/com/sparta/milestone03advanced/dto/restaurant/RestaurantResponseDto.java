@@ -11,8 +11,8 @@ public class RestaurantResponseDto {
     private String name;
     private int minOrderPrice;
     private int deliveryFee;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
     public RestaurantResponseDto(Restaurant restaurant){
         this.id = restaurant.getId();
