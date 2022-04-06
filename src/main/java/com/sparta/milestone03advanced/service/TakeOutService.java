@@ -66,6 +66,7 @@ public class TakeOutService {
                             .findById(takeOutFoodRequestDto.getId())
                             .orElseThrow( () -> new NullPointerException("해당 음식이 존재하지 않습니다."))));
         }
+
         // 배달비 할증 적용하기
         double distance = deliveryUtils.getDistance(restaurant.getX(), restaurant.getY(), requestDto.getX(), requestDto.getY());
         int primeum = deliveryUtils.getDistancePremium(distance);
@@ -89,7 +90,7 @@ public class TakeOutService {
     }
 
     // 목록 저장 메소드
-    public TakeOutResponseDto takeOutSave(TakeOutResponseDto responseDto){
+    private TakeOutResponseDto takeOutSave(TakeOutResponseDto responseDto){
         TakeOut takeOut = takeOutRepository.save(new TakeOut(responseDto));
 
         List<TakeOutFood> takeOutFoods = new ArrayList<>();

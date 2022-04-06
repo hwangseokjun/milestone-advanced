@@ -30,7 +30,7 @@ public class Restaurant {
     @Column(nullable = false)
     private double y;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Food> foods;
 
     public Restaurant(RestaurantRequestDto requestDto){
